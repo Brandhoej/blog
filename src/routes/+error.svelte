@@ -39,7 +39,7 @@
       on:mouseenter={() => (goBackHovered = true)}
       on:mouseleave={() => (goBackHovered = false)}
     >
-      Go Home
+      Home
       {#if goBackHovered}
         <HomeSolid class="ml-4 w-6 h-6" />
       {:else}
