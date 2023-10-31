@@ -1,7 +1,7 @@
 <script>
-	import { Timeline } from 'flowbite-svelte';
+  import { Timeline } from "flowbite-svelte";
 </script>
 
 <Timeline order="vertical">
-	<slot />
+  <slot />
 </Timeline>

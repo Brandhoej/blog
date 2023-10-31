@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import { Button } from 'flowbite-svelte';
-	import { HomeOutline, HomeSolid } from 'flowbite-svelte-icons';
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+  import { Button } from "flowbite-svelte";
+  import { HomeOutline, HomeSolid } from "flowbite-svelte-icons";
 
-	let errorMessage: string | undefined = undefined;
-	let goBackHovered: boolean = false;
+  let errorMessage: string | undefined = undefined;
+  let goBackHovered: boolean = false;
 
-  $: errorMessage = $page.error ? $page.error.message : undefined
+  $: errorMessage = $page.error ? $page.error.message : undefined;
 </script>
 
 <div class="w-screen h-screen">
@@ -23,19 +23,25 @@
           {errorMessage}
         </div>
       {:else}
-        <div class="text-5xl font-thin text-primary-950 leading-none mr-6">Http</div>
+        <div class="text-5xl font-thin text-primary-950 leading-none mr-6">
+          Http
+        </div>
         <div class="text-5xl font-thin text-primary-950 leading-none">
           {$page.status}
         </div>
       {/if}
     </div>
     <div class="my-8 text text-primary-800 w-96 text-center">
-      It looks like an error has occured. But don't worry, you can find plenty on the <a class="hover:underline text-link-active hover:text-link-hovered" href="/">homepage</a>.
+      It looks like an error has occured. But don't worry, you can find plenty
+      on the <a
+        class="hover:underline text-link-active hover:text-link-hovered"
+        href="/">homepage</a
+      >.
     </div>
     <Button
       color="primary"
       class="text-xl text-primary-800 border-primary-500 border-2 bg-transparent hover:bg-transparent h-12"
-      on:click={() => goto('/')}
+      on:click={() => goto("/")}
       on:mouseenter={() => (goBackHovered = true)}
       on:mouseleave={() => (goBackHovered = false)}
     >
