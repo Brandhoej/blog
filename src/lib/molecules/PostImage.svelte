@@ -4,7 +4,8 @@
 <script lang="ts">
   import { PostCaption } from "$lib/atoms";
   import Anchor from "$lib/atoms/Anchor.svelte";
-  import { store } from "$lib/stores/ReferenceStores";
+  import { store, remove } from "$lib/stores/ReferenceStores";
+    import { onDestroy } from "svelte";
   import type { Writable } from "svelte/store";
 
   $: {
@@ -13,6 +14,12 @@
       name = `Figure ${$index}`;
     }
   }
+
+  onDestroy(() => {
+    if (reference) {
+      remove(reference)
+    }
+  })
 
   let index: Writable<number> | undefined;
   let name: string = "Figure ??";

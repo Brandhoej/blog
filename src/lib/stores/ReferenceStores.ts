@@ -1,11 +1,13 @@
 import { writable, type Writable } from "svelte/store";
 
 interface Reference {
-  declared: boolean;
+  initialized: boolean;
   group: string | undefined;
+  order: number | undefined;
   index: Writable<number>;
 }
 
+let globalReferenceCounter: number = 0;
 const references: { [reference: string]: Reference } = {};
 
 interface Group {
@@ -29,11 +31,12 @@ export function store(
 
   const reference = references[referenceID];
   if (reference) {
-    if (reference.declared) {
+    if (reference.initialized) {
       return reference.index;
     } else {
       reference.index.set(group.count);
-      reference.declared = true;
+      reference.initialized = true;
+      reference.order = globalReferenceCounter++
       reference.group = groupName;
       return reference.index;
     }
@@ -41,8 +44,9 @@ export function store(
 
   const store = writable<number>(group.count);
   references[referenceID] = {
-    declared: true,
+    initialized: true,
     group: groupName,
+    order: globalReferenceCounter++,
     index: store,
   };
   return store;
@@ -52,11 +56,37 @@ export function lookup(referenceID: string): Reference {
   let reference = references[referenceID];
   if (!reference) {
     reference = references[referenceID] = {
-      declared: false,
+      initialized: false,
       group: undefined,
+      order: undefined,
       index: writable<number>(),
     };
   }
 
   return reference;
+}
+
+export function remove(referenceID: string): void {
+  let reference = references[referenceID]
+  if (reference) {
+    delete references[referenceID]
+
+    if (reference.order && reference.group) {
+      for (const key in references) {
+        const other = references[key]
+  
+        if (other.order && other.group && other.group === reference.group && other.order < reference.order) {
+          references[key].index.update((idx) => idx - 1)
+        }
+      }
+    }
+
+    if (reference.group) {
+      groups[reference.group].count--
+    }
+  }
+
+  if (Object.keys(references).length === 0) {
+    globalReferenceCounter = 0
+  }
 }
