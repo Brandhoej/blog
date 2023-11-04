@@ -1,10 +1,16 @@
 <script>
   import { trail } from "$lib/stores/BreadcrumbStore";
-  import { PostParagraph, PostTitle } from "$lib/atoms";
+  import { Bibliography, PostParagraph, PostTitle } from "$lib/atoms";
   import PostSection from "$lib/atoms/PostSection.svelte";
   import { AngleUpSolid } from "flowbite-svelte-icons";
   import PostImage from "$lib/molecules/PostImage.svelte";
   import Refer from "$lib/atoms/Refer.svelte";
+  import { References } from "$lib/stores/References";
+  import { Citations } from "$lib/stores/Citations";
+  import Cite from "$lib/atoms/Cite.svelte";
+
+  const references = new References();
+  const citations = new Citations();
 
   trail({
     href: "#lorem-ipsum",
@@ -16,20 +22,25 @@
 <PostImage
   source="https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
   alternative="cat"
-  reference="fig:cat0"
+  reference={references.store("Figure", "fig:cat0")}
   caption="This is a cat"
 />
 <PostParagraph
-  >Lorem ipsum dolor sit amet <Refer reference="fig:cat0" />, consectetur
-  adipiscing elit <Refer reference="fig:cat1" />. Integer cursus sagittis fringilla. Cras hendrerit ante at
-  metus dapibus, id malesuada sem laoreet. Suspendisse sollicitudin purus a diam
-  placerat, vel lacinia lectus tincidunt. Sed tempus commodo turpis, id eleifend
-  nibh. Quisque ac odio ut eros dignissim interdum in sit amet lectus. Nulla
-  fermentum ante ullamcorper purus ultrices aliquam. Ut accumsan mauris in
-  tortor condimentum, non suscipit nibh commodo. Sed ac ex non nulla consequat
-  ullamcorper. Vivamus ut massa tellus. Fusce eget nibh libero. Fusce
-  condimentum vehicula ornare. Nunc ac dolor nec magna laoreet iaculis. Duis
-  quis vestibulum ante. Etiam in posuere sem.</PostParagraph
+  >Lorem ipsum dolor sit amet <Refer
+    to={references.lookup("Figure", "fig:cat0")}
+  />, consectetur adipiscing elit. Integer cursus sagittis fringilla. Cras
+  hendrerit ante at metus dapibus, id malesuada sem laoreet. Suspendisse
+  sollicitudin purus a diam placerat, vel lacinia lectus tincidunt. Sed tempus
+  commodo turpis, id eleifend nibh. Quisque ac odio ut eros dignissim interdum
+  in sit amet lectus. Nulla fermentum ante ullamcorper purus ultrices aliquam.
+  Ut accumsan mauris in tortor condimentum, non suscipit nibh commodo. Sed ac ex
+  non nulla consequat ullamcorper. Vivamus ut massa tellus. Fusce eget nibh
+  libero. Fusce condimentum vehicula ornare. Nunc ac dolor nec magna laoreet
+  iaculis. Duis quis vestibulum ante. Etiam in posuere sem. <Cite
+    to={citations.store("google", {
+      source: "google.com",
+    })}
+  /></PostParagraph
 >
 <PostSection fragment="habitasse">Habitasse</PostSection>
 <PostParagraph
@@ -42,7 +53,7 @@
   suscipit eros scelerisque. Duis aliquet pharetra nisl eget tempus. Nam
   bibendum purus et sapien condimentum fringilla ut fringilla velit. Aliquam
   ipsum ipsum, efficitur eget mattis ac, fringilla eget justo. Proin in diam
-  turpis.
+  turpis. <Cite to={citations.store("amazon.com", { source: "amazon.com" })} />
 </PostParagraph>
 <PostParagraph
   >Praesent dignissim dictum sapien dignissim imperdiet. Vivamus rutrum nunc non
@@ -104,12 +115,6 @@
   faucibus.</PostParagraph
 >
 <PostSection fragment="pellentesque">Pellentesque</PostSection>
-<PostImage
-  source="https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
-  alternative="cat"
-  reference="fig:cat1"
-  caption="This is a cat"
-/>
 <PostParagraph
   >In hac habitasse platea dictumst. Pellentesque dignissim nunc at eleifend
   tincidunt. Maecenas a sapien bibendum, facilisis mauris id, hendrerit risus.
@@ -122,12 +127,6 @@
   ipsum ipsum, efficitur eget mattis ac, fringilla eget justo. Proin in diam
   turpis.
 </PostParagraph>
-<PostImage
-  source="https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
-  alternative="cat"
-  reference="fig:cat2"
-  caption="This is a cat"
-/>
 <PostParagraph
   >Ut fermentum aliquam gravida. Orci varius natoque penatibus et magnis dis
   parturient montes, nascetur ridiculus mus. Nunc vel sem eget odio posuere
@@ -137,12 +136,7 @@
   Proin pellentesque, nunc eget luctus hendrerit, orci nunc efficitur turpis, eu
   condimentum sem sapien ut neque.</PostParagraph
 >
-<PostImage
-  source="https://upload.wikimedia.org/wikipedia/commons/1/15/Cat_August_2010-4.jpg"
-  alternative="cat"
-  reference="fig:cat3"
-  caption="This is a cat"
-/>
+<Bibliography {citations} />
 <div class="flex flex-col mt-6">
   <a href="#top" class="flex flex-col mx-auto">
     <div class="text-primary-800 mx-auto">

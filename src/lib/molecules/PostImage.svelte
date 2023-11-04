@@ -4,40 +4,39 @@
 <script lang="ts">
   import { PostCaption } from "$lib/atoms";
   import Anchor from "$lib/atoms/Anchor.svelte";
-  import { store, remove } from "$lib/stores/ReferenceStores";
-    import { onDestroy } from "svelte";
+  import {
+    fragmentFor,
+    labelFor,
+    type Reference,
+  } from "$lib/stores/References";
   import type { Writable } from "svelte/store";
+
+  let fragment: string | undefined = undefined;
 
   $: {
     if (reference) {
-      index = store("Figure", reference);
-      name = `Figure ${$index}`;
+      label = labelFor(reference.groupName, $index);
+      fragment = fragmentFor(reference.groupName, $index);
     }
   }
 
-  onDestroy(() => {
-    if (reference) {
-      remove(reference)
-    }
-  })
-
-  let index: Writable<number> | undefined;
-  let name: string = "Figure ??";
-
   export let source: string;
   export let alternative: string;
-  export let reference: string | undefined = undefined;
+  export let reference: Reference | undefined = undefined;
   export let caption: string | undefined = undefined;
+
+  let index: Writable<number | undefined> | undefined = reference?.index;
+  let label: string = labelFor(reference?.groupName ?? "Figure", undefined);
 </script>
 
 <figure>
-  <Anchor href={"#" + reference} id={reference}>
+  <Anchor href={"#" + fragment} id={fragment}>
     <img class="my-4" src={source} alt={alternative} />
   </Anchor>
-  {#if name && caption}
+  {#if label && caption}
     <figcaption>
       <PostCaption>
-        <Anchor href={"#" + reference} divClass="hover:underline">{name}</Anchor
+        <Anchor href={"#" + fragment} divClass="hover:underline">{label}</Anchor
         >: {caption}
       </PostCaption>
     </figcaption>

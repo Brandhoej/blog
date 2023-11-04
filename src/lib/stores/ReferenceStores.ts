@@ -36,7 +36,7 @@ export function store(
     } else {
       reference.index.set(group.count);
       reference.initialized = true;
-      reference.order = globalReferenceCounter++
+      reference.order = globalReferenceCounter++;
       reference.group = groupName;
       return reference.index;
     }
@@ -67,26 +67,31 @@ export function lookup(referenceID: string): Reference {
 }
 
 export function remove(referenceID: string): void {
-  let reference = references[referenceID]
+  let reference = references[referenceID];
   if (reference) {
-    delete references[referenceID]
+    delete references[referenceID];
 
     if (reference.order && reference.group) {
       for (const key in references) {
-        const other = references[key]
-  
-        if (other.order && other.group && other.group === reference.group && other.order < reference.order) {
-          references[key].index.update((idx) => idx - 1)
+        const other = references[key];
+
+        if (
+          other.order &&
+          other.group &&
+          other.group === reference.group &&
+          other.order < reference.order
+        ) {
+          references[key].index.update((idx) => idx - 1);
         }
       }
     }
 
     if (reference.group) {
-      groups[reference.group].count--
+      groups[reference.group].count--;
     }
   }
 
   if (Object.keys(references).length === 0) {
-    globalReferenceCounter = 0
+    globalReferenceCounter = 0;
   }
 }

@@ -11,3 +11,4 @@ export { default as Fragment } from "./Fragment.svelte";
 export { default as Copyright } from "./Copyright.svelte";
 export { default as CenterView } from "./CenterView.svelte";
 export { default as PostCaption } from "./PostCaption.svelte";
+export { default as Bibliography } from "./Bibliography.svelte";
