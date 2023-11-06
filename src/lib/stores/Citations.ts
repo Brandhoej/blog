@@ -2,6 +2,7 @@ import { References, type Reference } from "./References";
 
 export interface Citation {
   source: string;
+  note: string | undefined;
 }
 
 export class Citations {

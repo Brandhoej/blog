@@ -1,5 +1,5 @@
 <script>
-  import { trail } from "$lib/stores/BreadcrumbStore";
+  import { trail } from "$lib/stores/Breadcrumbs";
   import PostTimeline from "$lib/atoms/PostTimeline.svelte";
   import PostTimelineItem from "$lib/atoms/PostTimelineItem.svelte";
 

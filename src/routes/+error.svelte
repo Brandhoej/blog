@@ -31,7 +31,7 @@
         </div>
       {/if}
     </div>
-    <div class="my-8 text text-primary-800 w-96 text-center">
+    <div class="my-8 text-primary-800 w-96 text-center">
       It looks like an error has occured. But don't worry, you can find plenty
       on the <a
         class="hover:underline text-link-active hover:text-link-hovered"

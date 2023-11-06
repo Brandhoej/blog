@@ -2,12 +2,12 @@ import { writable } from "svelte/store";
 
 export interface Breadcrumb {
   href: string;
-  title: string;
+  label: string;
 }
 
 const home: Breadcrumb = {
   href: "/",
-  title: "Home",
+  label: "Home",
 };
 
 export const breadcrumbs = writable<Breadcrumb[]>([home]);
